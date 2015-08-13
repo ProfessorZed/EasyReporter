@@ -141,7 +141,7 @@ public class Reporter {
 		frame.getContentPane().add(lblNewLabel_2);
 
 		comboBoxRank = new JComboBox<>();
-		comboBoxRank.setModel(new DefaultComboBoxModel<>(new String[] { "VIP",
+		comboBoxRank.setModel(new DefaultComboBoxModel<>(new String[] { "Default", "VIP",
 				"VIP+", "MVP", "MVP+" }));
 		comboBoxRank.setToolTipText("Rank");
 		comboBoxRank.setBounds(10, 120, 322, 34);
