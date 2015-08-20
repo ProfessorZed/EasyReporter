@@ -24,7 +24,6 @@ import javax.swing.WindowConstants;
 public class Reporter {
 
 	private JFrame frame;
-	private JTextField textFieldName;
 	private JComboBox<String> comboBoxPerm;
 	private JTextArea textAreaResult;
 	private TextArea textAreaProof;
@@ -36,6 +35,8 @@ public class Reporter {
 	private JLabel lblDoYouGive;
 	private JComboBox<String> comboBoxRank;
 	private JLabel lblRank;
+	private TextArea textAreaName;
+
 	/**
 	 * Launch the application.
 	 */
@@ -75,23 +76,42 @@ public class Reporter {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Image img2 = kit.createImage(url);
 		frame.setIconImage(img2);
-		
 
 		JButton btnNewButton = new JButton("Click when ready!");
 		btnNewButton.setFont(new Font("Yu Mincho", Font.BOLD, 15));
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name, offense, proof,comboperm, comborank;
-				name = textFieldName.getText();
+				String name, offense, proof, comboperm, comborank;
+				name = textAreaName.getText();
 				offense = textAreaOffense.getText();
 				proof = textAreaProof.getText();
 				comboperm = comboBoxPerm.getSelectedItem().toString();
 				comborank = comboBoxRank.getSelectedItem().toString();
 				System.out.println(name + offense + proof + comboperm);
-				textAreaResult.setText("[" + comborank + "]" + name + "\r\n"
-						+ "Offense: " + offense + "\r\n" + "Proof: " + proof
-						+ "\r\n" + "Permission to share: " + comboperm + "\r\n" + "\r\n" + "Skin: http://www.minecraft-skin-viewer.net/?username=" + name);
+				textAreaResult
+						.setText("[LIST]" +
+								"[*][B][COLOR=#0000ff]In-Game Name: [/COLOR][/B]" + 
+										"[/LIST]" 
+								+ "["
+								+           comborank
+								+ "] "
+								+ name
+								+ "\r\n"
+								+ "[LIST]" +
+										"[*][B][COLOR=#0000ff]Reason: [/COLOR][/B]" +
+												"[/LIST]" +
+												"[COLOR=#0000ff][B][/B]" +
+												"[B][/B][/COLOR]"
+								+           offense
+								+ "\r\n"
+								+ "[LIST] [*][B][COLOR=#0000ff]Evidence: [/COLOR][/B] [/LIST][COLOR=#0000ff][B][/B][B][/B][/COLOR]"
+								+           proof
+								+ "\r\n"
+								+ "[LIST][*][B][COLOR=#0000ff]Do you give us permission to share your proof:[/COLOR][/B][/LIST]"
+								+           comboperm);
+				
+				
 				String myString = textAreaResult.getText();
 				StringSelection stringSelection = new StringSelection(myString);
 				Clipboard clpbrd = Toolkit.getDefaultToolkit()
@@ -100,29 +120,26 @@ public class Reporter {
 				JOptionPane.showMessageDialog(null,
 						"Report copied to clipboard!" + "\r\n"
 								+ "Use CTRL + V for easy paste ;)");
-				Reporter.this.textFieldName.setText("");
-		        Reporter.this.textAreaOffense.setText("");
-		        Reporter.this.textAreaProof.setText("");
-		        Reporter.this.comboBoxRank.setSelectedItem("Default");
-		        Reporter.this.comboBoxPerm.setSelectedItem("Yes.");
-		        Reporter.this.textAreaResult.setText("");
+				Reporter.this.textAreaName.setText("");
+				Reporter.this.textAreaOffense.setText("");
+				Reporter.this.textAreaProof.setText("");
+				Reporter.this.comboBoxRank.setSelectedItem("Default");
+				Reporter.this.comboBoxPerm.setSelectedItem("Yes.");
+				Reporter.this.textAreaResult.setText("");
 			}
 		});
+		
 		btnNewButton.setBounds(10, 374, 322, 58);
 		frame.getContentPane().add(btnNewButton);
 
-		textFieldName = new JTextField();
-		textFieldName.setToolTipText("Name\r\n");
-		textFieldName.setBounds(10, 50, 322, 34);
-		frame.getContentPane().add(textFieldName);
-		textFieldName.setColumns(10);
-		
-		
-		
+		textAreaName = new TextArea();
+		textAreaName.setBounds(10, 45, 322, 42);
+		frame.getContentPane().add(textAreaName);
+
 		textAreaOffense = new TextArea();
 		textAreaOffense.setBounds(10, 256, 322, 42);
 		frame.getContentPane().add(textAreaOffense);
-		
+
 		textAreaProof = new TextArea();
 		textAreaProof.setBounds(10, 188, 322, 42);
 		frame.getContentPane().add(textAreaProof);
@@ -138,7 +155,6 @@ public class Reporter {
 		lblProof.setForeground(SystemColor.desktop);
 		lblProof.setBounds(147, 161, 39, 14);
 		frame.getContentPane().add(lblProof);
-
 
 		lblOffense = new JLabel("Offense");
 		lblOffense.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -159,7 +175,7 @@ public class Reporter {
 		lblRank.setForeground(SystemColor.desktop);
 		lblRank.setBounds(147, 95, 46, 14);
 		frame.getContentPane().add(lblRank);
-		
+
 		comboBoxPerm = new JComboBox<>();
 		comboBoxPerm.setModel(new DefaultComboBoxModel<>(new String[] { "Yes.",
 				"No." }));
@@ -174,15 +190,14 @@ public class Reporter {
 		textAreaResult.setBounds(504, 90, 282, 269);
 		textAreaResult.setColumns(10);
 		frame.getContentPane().add(textAreaResult);
-		
-		
+
 		comboBoxRank = new JComboBox<>();
 		comboBoxRank.setModel(new DefaultComboBoxModel<>(new String[] {
 				"Default", "VIP", "VIP+", "MVP", "MVP+" }));
 		comboBoxRank.setToolTipText("Rank");
 		comboBoxRank.setBounds(10, 120, 322, 34);
 		frame.getContentPane().add(comboBoxRank);
-		
+
 		JLabel label = new JLabel("");
 		label.setBackground(SystemColor.menu);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -191,20 +206,19 @@ public class Reporter {
 		Image img = new ImageIcon(this.getClass().getResource("/logo2.png"))
 				.getImage();
 		label.setIcon(new ImageIcon(img));
-		
+
 		comboBoxColor = new JComboBox();
-		comboBoxColor.setModel(new DefaultComboBoxModel(new String[] {"Original (Black)", "Red", "Blue", "Green"}));
+		comboBoxColor.setModel(new DefaultComboBoxModel(new String[] {
+				"Original (Black)", "Red", "Blue", "Green" }));
 		comboBoxColor.setBounds(565, 10, 122, 20);
 		frame.getContentPane().add(comboBoxColor);
-		
-		
+
 		JLabel lblColors = new JLabel("Colors:");
 		lblColors.setBounds(523, 13, 46, 14);
 		frame.getContentPane().add(lblColors);
-		
-		
-		
-		JButton btnConfirm = new JButton("Confirm");
+
+		JButton 
+		btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBoxColor.getSelectedItem().toString() == "Original (Black)") {
