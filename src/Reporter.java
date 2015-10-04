@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class Reporter {
@@ -41,9 +40,9 @@ public class Reporter {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		links linksob = new links();
-		linksob.setVisible(true);
-		linksob.setSize(400, 150);
+		forums linksob = new forums();
+		Youtube ytop = new Youtube();
+		imgur imgop = new imgur();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -55,17 +54,19 @@ public class Reporter {
 			}
 		});
 	}
-
 	/**
 	 * Create the application.
 	 */
 	public Reporter() {
 		initialize();
 	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setForeground(SystemColor.desktop);
@@ -90,26 +91,11 @@ public class Reporter {
 				comborank = comboBoxRank.getSelectedItem().toString();
 				System.out.println(name + offense + proof + comboperm);
 				textAreaResult
-						.setText("[LIST]" +
-								"[*][B][COLOR=#0000ff]In-Game Name: [/COLOR][/B]" + 
-										"[/LIST]" 
-								+ "["
-								+           comborank
-								+ "] "
-								+ name
-								+ "\r\n"
-								+ "[LIST]" +
-										"[*][B][COLOR=#0000ff]Reason: [/COLOR][/B]" +
-												"[/LIST]" +
-												"[COLOR=#0000ff][B][/B]" +
-												"[B][/B][/COLOR]"
-								+           offense
-								+ "\r\n"
-								+ "[LIST] [*][B][COLOR=#0000ff]Evidence: [/COLOR][/B] [/LIST][COLOR=#0000ff][B][/B][B][/B][/COLOR]"
-								+           proof
-								+ "\r\n"
-								+ "[LIST][*][B][COLOR=#0000ff]Do you give us permission to share your proof:[/COLOR][/B][/LIST]"
-								+           comboperm);
+						.setText(String.format("[LIST][*][B][COLOR=#0000ff]In-Game Name: \r\n [/COLOR][/B]%s %s[/COLOR][/LIST]%n"
+								+ "[LIST][*][B][COLOR=#0000ff]Reason: \r\n [/COLOR][/B]%s[/LIST]%n"
+								+ "[LIST][*][B][COLOR=#0000ff]Evidence: \r\n [/COLOR][/B][URL]%s[/URL][/LIST]%n"
+								+ "[LIST][*][B][COLOR=#0000ff]Do you give us permission to share your proof: \r\n [/COLOR][/B]%s[/LIST]%n"
+								, getFormattedRank(comborank), name, offense, proof, comboperm));
 				
 				
 				String myString = textAreaResult.getText();
@@ -176,8 +162,8 @@ public class Reporter {
 		lblRank.setBounds(147, 95, 46, 14);
 		frame.getContentPane().add(lblRank);
 
-		comboBoxPerm = new JComboBox<>();
-		comboBoxPerm.setModel(new DefaultComboBoxModel<>(new String[] { "Yes.",
+		comboBoxPerm = new JComboBox<String>();
+		comboBoxPerm.setModel(new DefaultComboBoxModel<String>(new String[] { "Yes.",
 				"No." }));
 		comboBoxPerm.setToolTipText("");
 		comboBoxPerm.setBounds(10, 329, 322, 34);
@@ -191,8 +177,8 @@ public class Reporter {
 		textAreaResult.setColumns(10);
 		frame.getContentPane().add(textAreaResult);
 
-		comboBoxRank = new JComboBox<>();
-		comboBoxRank.setModel(new DefaultComboBoxModel<>(new String[] {
+		comboBoxRank = new JComboBox<String>();
+		comboBoxRank.setModel(new DefaultComboBoxModel<String>(new String[] {
 				"Default", "VIP", "VIP+", "MVP", "MVP+" }));
 		comboBoxRank.setToolTipText("Rank");
 		comboBoxRank.setBounds(10, 120, 322, 34);
@@ -201,14 +187,14 @@ public class Reporter {
 		JLabel label = new JLabel("");
 		label.setBackground(SystemColor.menu);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(0, 0, 796, 443);
+		label.setBounds(350, 0, 796, 443);
 		frame.getContentPane().add(label);
-		Image img = new ImageIcon(this.getClass().getResource("/logo2.png"))
+		Image img = new ImageIcon(this.getClass().getResource("/Hypixel.png"))
 				.getImage();
 		label.setIcon(new ImageIcon(img));
 
-		comboBoxColor = new JComboBox();
-		comboBoxColor.setModel(new DefaultComboBoxModel(new String[] {
+		comboBoxColor = new JComboBox<String>();
+		comboBoxColor.setModel(new DefaultComboBoxModel<String>(new String[] {
 				"Original (Black)", "Red", "Blue", "Green" }));
 		comboBoxColor.setBounds(565, 10, 122, 20);
 		frame.getContentPane().add(comboBoxColor);
@@ -259,5 +245,22 @@ public class Reporter {
 		btnConfirm.setBounds(697, 9, 89, 23);
 		frame.getContentPane().add(btnConfirm);
 		
+	}
+	
+	private String getFormattedRank(String rank) {
+		switch(rank.toLowerCase()) {
+			case "default":
+				return "[COLOR=#AAAAAA][Default]";
+			case "vip":
+				return "[COLOR=#55FF55][VIP]";
+			case "vip+":
+				return "[COLOR=#55FF55][VIP[/COLOR][COLOR=#FFAA00]+[/COLOR][COLOR=#55FF55]]";
+			case "mvp": 
+				return "[COLOR=#55FFFF][MVP]";
+			case "mvp+":
+				return "[COLOR=#55FFFF][MVP[/COLOR][COLOR=#FF5555]+[/COLOR][COLOR=#55FFFF]]";
+			default:
+				return rank;
+		}
 	}
 }
