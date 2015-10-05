@@ -91,10 +91,17 @@ public class Reporter {
 				comborank = comboBoxRank.getSelectedItem().toString();
 				System.out.println(name + offense + proof + comboperm);
 				textAreaResult
+<<<<<<< HEAD
 						.setText(String.format("[LIST][*][B][COLOR=#0000ff]In-Game Name: \r\n [/COLOR][/B]%s %s[/COLOR][/LIST]%n"
 								+ "[LIST][*][B][COLOR=#0000ff]Reason: \r\n [/COLOR][/B]%s[/LIST]%n"
 								+ "[LIST][*][B][COLOR=#0000ff]Evidence: \r\n [/COLOR][/B][URL]%s[/URL][/LIST]%n"
 								+ "[LIST][*][B][COLOR=#0000ff]Do you give us permission to share your proof: \r\n [/COLOR][/B]%s[/LIST]%n"
+=======
+						.setText(String.format("[LIST][*][B][COLOR=#0000ff]In-Game Name: [/COLOR][/B]%s %s[/COLOR][/LIST]%n"
+								+ "[LIST][*][B][COLOR=#0000ff]Reason: [/COLOR][/B]%s[/LIST]%n"
+								+ "[LIST][*][B][COLOR=#0000ff]Evidence: [/COLOR][/B][URL]%s[/URL][/LIST]%n"
+								+ "[LIST][*][B][COLOR=#0000ff]Do you give us permission to share your proof: [/COLOR][/B]%s[/LIST]%n"
+>>>>>>> 23f3202ee879455eeb61a9331ad2f9607efe81ea
 								, getFormattedRank(comborank), name, offense, proof, comboperm));
 				
 				
